@@ -1,2 +1,73 @@
 # Data visualisation
 
+```{r setup}
+library(tidyverse)
+```
+
+## Introduction
+ 
+## First steps
+
+### Content 
+```{r}
+data(mpg)
+```
+
+Find out about the correlation between `displ` (= a car's engine size in liters) and `hwy` (= a car's fuel efficiency on the highway in miles per gallon):
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+### Exercises
+1.  Run `ggplot(data = mpg)` what do you see?
+```{r}
+ggplot(data = mpg)
+```
+Nothing because the geometric function and mappings are missing.
+
+1.  How many rows are in `mtcars`? How many columns?
+```{r}
+data(mtcars)
+nrow(mtcars) 
+ncol(mtcars) 
+```
+
+1.  What does the `drv` variable describe?  Read the help for `?mpg` to find
+    out.
+```{r, eval = F}
+?mpg
+```
+f = front-wheel drive; r = rear-wheel drive; 4 = four-wheel drive
+     
+1.  Make a scatterplot of `hwy` vs `cyl`.
+```{r}
+ggplot(data = mpg) +
+  geom_point(aes(x = hwy, y = cyl))
+```
+
+1.  What happens if you make a scatterplot of `class` vs `drv`. Why is
+    the plot not useful?
+```{r}
+ggplot(mpg) +
+  geom_point(aes(x = class, y = drv))
+```
+There are multiple y-values for one x-value. Also, class is not a numerical variable, but a categorial one.
+
+## Aesthetic mappings
+
+## Common problems
+
+## Facets
+
+## Geometric objects
+
+## Statistical transformations
+
+## Position adjustments
+
+## Coordinate systems
+
+## The layered grammar of graphics
+
