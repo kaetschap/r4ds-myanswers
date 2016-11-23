@@ -1,6 +1,17 @@
+---
+title: "Chapter 03 Data Visualization"
+author: "kaetschap"
+date: "November 23, 2016"
+output: html_document
+---
+
 # Data visualisation
 
-```{r setup}
+```{r knitroption, include = F}
+knitr::opts_chunk$set(echo = TRUE, indent = '    ') #set indent to four spaces to tabbing works for chunks in lists
+```
+
+```{r setup, message = F}
 library(tidyverse)
 ```
 
@@ -9,6 +20,7 @@ library(tidyverse)
 ## First steps
 
 ### Content 
+
 ```{r}
 data(mpg)
 ```
@@ -21,45 +33,260 @@ ggplot(data = mpg) +
 ```
 
 ### Exercises
-1.  Run `ggplot(data = mpg)` what do you see?
-```{r}
-ggplot(data = mpg)
-```
-Nothing because the geometric function and mappings are missing.
+1.  Run `ggplot(data = mpg)` what do you see? 
+    
+    ```{r}
+    ggplot(data = mpg)
+    ```
+    
+    Nothing because the geometric function and mappings are missing.
 
 1.  How many rows are in `mtcars`? How many columns?
-```{r}
-data(mtcars)
-nrow(mtcars) 
-ncol(mtcars) 
-```
+    
+    ```{r}
+    data(mtcars)
+    nrow(mtcars) 
+    ncol(mtcars) 
+    ```
 
 1.  What does the `drv` variable describe?  Read the help for `?mpg` to find
     out.
-```{r, eval = F}
-?mpg
-```
-f = front-wheel drive; r = rear-wheel drive; 4 = four-wheel drive
+    
+    ```{r, eval = F}
+    ?mpg
+    ```
+    
+    f = front-wheel drive; r = rear-wheel drive; 4 = four-wheel drive
      
 1.  Make a scatterplot of `hwy` vs `cyl`.
-```{r}
-ggplot(data = mpg) +
-  geom_point(aes(x = hwy, y = cyl))
-```
+    
+    ```{r}
+    ggplot(data = mpg) +
+      geom_point(aes(x = hwy, y = cyl))
+    ```
 
 1.  What happens if you make a scatterplot of `class` vs `drv`. Why is
     the plot not useful?
-```{r}
-ggplot(mpg) +
-  geom_point(aes(x = class, y = drv))
-```
-There are multiple y-values for one x-value. Also, class is not a numerical variable, but a categorial one.
+    
+    ```{r}
+    ggplot(mpg) +
+      geom_point(aes(x = class, y = drv))
+    ```
+    
+    There are multiple y-values for one x-value. Also, class is not a numerical
+    variable, but a categorial one.
 
 ## Aesthetic mappings
+
+### Content
+use another aesthetic to add a third variable, class, and 
+use color at unique levels to differenciate each unique value 
+of the class-variable
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class))
+```
+
+other possible aethetics:
+*   size  (=> size of the points)
+*   alpha (=> opacity)
+*   shape (=> shapes, only six possible ones; rest will stay unplotted)
+
+manually setting the aesthetic:
+since setting an aesthetic to a constant is independent of any variable, set this **outside** of the aes()-function
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+```
+
+### Exercises
+
+1.  What's gone wrong with this code? Why are the points not blue?
+
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+    ```
+    
+    It's not blue because the color setting was used inside aes()
+    The correct way:
+    
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+    ```
+
+1.  Which variables in `mpg` are categorical? Which variables are continuous? 
+    (Hint: type `?mpg` to read the documentation for the dataset). How
+    can you see this information when you run `mpg`?
+    
+    ```{r}
+    lapply(mpg, class)
+    ```
+    
+    continuous variables:
+    ```{r}
+    colnames(mpg)[grep("numeric", lapply(mpg, class))]
+    ```
+    
+    categorial variables:
+    ```{r}
+    colnames(mpg)[grep("character", lapply(mpg, class))]
+    ```
+    
+    discrete variables:
+    ```{r}
+    colnames(mpg)[grep("integer", lapply(mpg, class))]    
+    ```
+
+1.  Map a continuous variable to `color`, `size`, and `shape`. How do
+    these aesthetics behave differently for categorical vs. continuous
+    variables? 
+    
+    `color`:
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = cty, y = hwy, color = displ))
+    ```
+    
+    `size`:
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = cty, y = hwy, size = displ))
+    ```
+    
+    `shape`:
+    ```{r, eval = F}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = cty, y = hwy, shape = displ))
+    ```
+    `size` & `color` work well, `shape` is more suited for categorial variables
+    
+    `color`:
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = cty, y = hwy, color = drv))
+    ```
+    
+    `size`:
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = cty, y = hwy, size = drv))
+    ```
+    
+    `shape`:
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = cty, y = hwy, shape = drv))
+    ```
+    
+    `color` and `shape` work well, `size` is better for discrete/continuous
+    variables
+    
+1.  What happens if you map the same variable to multiple aesthetics? 
+    
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = cty, y = hwy, color = hwy))
+    ```
+    
+    The plot essentially loses information, since the same thing is displayed
+    twice
+
+1.  What does the `stroke` aesthetic do? What shapes does it work with?
+    (Hint: use `?geom_point`)
+    
+    ```{r, eval = F}
+    ?geom_point
+    ```
+    
+    > For shapes that have a border (like 21), you can colour the inside and
+    outside separately. Use the stroke aesthetic to modify the width of the
+    border
+    
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = cty, y = hwy, stroke = 2))
+    ```
+    
+1.  What happens if you map an aesthetic to something other than a variable 
+    name, like `aes(colour = displ < 5)`? 
+    
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = cty, y = hwy, color = displ < 5))
+    ```
+    
+    This creates a logical vector indicating whether the condition is true or
+    not and displays these two levels as the third aesthetic in the legend
 
 ## Common problems
 
 ## Facets
+### Content
+### Exercises
+
+1.  What happens if you facet on a continuous variable?
+
+    ```{r}
+    ggplot(data = mpg) +
+      geom_point(aes(x = drv, y = cyl)) +
+      facet_wrap(~ displ, nrow = 2)
+    ```
+  
+    For every realisation of the variable a new facet will be added.
+    
+1.  What do the empty cells in plot with `facet_grid(drv ~ cyl)` mean?
+    How do they relate to this plot?
+    
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = drv, y = cyl))
+    ```
+    
+    There are points missing whenever there is no realisation in the data as
+    `cyl` for that `drv`.
+
+1.  What plots does the following code make? What does `.` do?
+
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = displ, y = hwy)) +
+      facet_grid(drv ~ .)
+    
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = displ, y = hwy)) +
+      facet_grid(. ~ cyl)
+    ```
+    
+    The `facet_grid` formula works according to the pattern `y ~ x`, where the 
+    y variable is mapped along the y-axis of the plot (as rows) and the x
+    variable is mapped along the x-axis (as columns).
+    
+    When instead of a variable, there is a dot, that means to omit that
+    dimension. (`. ~ x` to map `x` along columns and `y ~ .` to map `y` along
+    rows).
+
+1.  Take the first faceted plot in this section:
+
+    ```{r}
+    ggplot(data = mpg) + 
+      geom_point(mapping = aes(x = displ, y = hwy)) + 
+      facet_wrap(~ class, nrow = 2)
+    ```
+    
+    What are the advantages to using faceting instead of the colour aesthetic?
+    What are the disadvantages? How might the balance change if you had a 
+    larger dataset?
+    
+1.  Read `?facet_wrap`. What does `nrow` do? What does `ncol` do? What other
+    options control the layout of the individual panels? Why doesn't
+    `facet_grid()` have `nrow` and `ncol` variables?
+
+1.  When using `facet_grid()` you should usually put the variable with more
+    unique levels in the columns. Why?
 
 ## Geometric objects
 
