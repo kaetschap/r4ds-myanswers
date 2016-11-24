@@ -7,11 +7,7 @@ output: html_document
 
 # Data visualisation
 
-```{r knitroption, include = F}
-knitr::opts_chunk$set(echo = TRUE, indent = '    ') #set indent to four spaces to tabbing works for chunks in lists
-```
-
-```{r setup, message = F}
+```{r, message = F}
 library(tidyverse)
 ```
 
@@ -89,9 +85,10 @@ ggplot(data = mpg) +
 ```
 
 other possible aethetics:
-*   size  (=> size of the points)
-*   alpha (=> opacity)
-*   shape (=> shapes, only six possible ones; rest will stay unplotted)
+
+*    size  (=> size of the points)
+*    alpha (=> opacity)
+*    shape (=> shapes, only six possible ones; rest will stay unplotted)
 
 manually setting the aesthetic:
 since setting an aesthetic to a constant is independent of any variable, set this **outside** of the aes()-function
@@ -281,14 +278,120 @@ ggplot(data = mpg) +
     What are the disadvantages? How might the balance change if you had a 
     larger dataset?
     
+    *   advantages:
+        Faceting gives a plot per level. That means that it's easier to spot
+        how the data for each level is distributed within the x- and y-axes.
+        This is especially helpful for larger datasets, where the data points 
+        from different facets might overlap.
+        
+    *   disadvantages:
+        Since levels are split up over multiple plots, it is harder to spot 
+        outliers or clusters in the data.
+    
 1.  Read `?facet_wrap`. What does `nrow` do? What does `ncol` do? What other
     options control the layout of the individual panels? Why doesn't
     `facet_grid()` have `nrow` and `ncol` variables?
+    
+    `facet_wrap()` builds facetting for one vector. `nrow` and `ncol` set the
+    number of rows and columns along which the facets of that vector should be 
+    distributed in the plot.
+    
+    `facet_grid()` has predetermined numbers of rows and columns. The number of
+    rows is equal to the number of levels for the `y` variable and the number 
+    of columns to the number of level for the `x` variable specified in the 
+    formula `y ~ x`.
 
 1.  When using `facet_grid()` you should usually put the variable with more
     unique levels in the columns. Why?
+    
+    This makes sense because most displaying devices have a larger number of 
+    pixels on the horizontal than the vertical axis.
 
 ## Geometric objects
+
+### Content
+
+### Exercises
+
+1.  What geom would you use to draw a line chart? A boxplot? 
+    A histogram? An area chart?
+    
+    *   line: 
+        `geom_line()`
+        
+    *   boxplot: 
+        `geom_boxplot()`
+        
+    *   histogram:
+        `geom_histogram()`
+        
+    *   area chart:
+        `geom_area()`
+        
+        
+1.  Run this code in your head and predict what the output will look like.
+    Then, run the code in R and check your predictions.
+    
+    ```{r}
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+      geom_point() + 
+      geom_smooth(se = FALSE)
+    ```
+    
+    This plot will show a scatter plot of `hwy` against `displ` with an 
+    additional aesthetic for `drv` by color. On top, there will be a smoothed 
+    regression line per level of `drv` without a confidence interval being 
+    displayed.
+
+1.  What does `show.legend = FALSE` do?  What happens if you remove it?  
+    Why do you think I used it earlier in the chapter?
+    
+    It didn't occur earlier in the chapter...
+    But it stops the legend from being displayed.
+
+1.  What does the `se` argument to `geom_smooth()` do?
+    
+    `se` shows whether a confidence interval should be displayed around the 
+    smoothed curve.
+
+1.  Will these two graphs look different? Why/why not?
+
+    ```{r, eval = FALSE}
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_point() + 
+      geom_smooth()
+    
+    ggplot() + 
+      geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+    ```
+    
+    Yes, they will. In the first, options are set in the `ggplot()`-function 
+    and passed down to the next layers. In the second plot, the options are set
+    manually per layer to the same values.
+
+1.  Recreate the R code necessary to generate the following graphs.
+    
+    ```{r echo = FALSE, fig.width = 3, out.width = "50%", fig.align = "default", message = FALSE}
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_point() + 
+      geom_smooth(se = FALSE)
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_smooth(aes(group = drv), se = FALSE) +
+      geom_point()
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+      geom_point() + 
+      geom_smooth(se = FALSE)
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_point(aes(color = drv)) + 
+      geom_smooth(se = FALSE)
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_point(aes(color = drv)) +
+      geom_smooth(aes(linetype = drv), se = FALSE)
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_point(size = 4, colour = "white") + 
+      geom_point(aes(colour = drv))
+    ```
 
 ## Statistical transformations
 
