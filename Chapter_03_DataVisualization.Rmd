@@ -203,8 +203,8 @@ ggplot(data = mpg) +
     ```
     
     > For shapes that have a border (like 21), you can colour the inside and
-    outside separately. Use the stroke aesthetic to modify the width of the
-    border
+    > outside separately. Use the stroke aesthetic to modify the width of the
+    > border
     
     ```{r}
     ggplot(data = mpg) + 
