@@ -392,8 +392,96 @@ ggplot(data = mpg) +
       geom_point(size = 4, colour = "white") + 
       geom_point(aes(colour = drv))
     ```
+    
+    ```{r}
+    ggplot(mpg, aes(x = displ, y = hwy)) + 
+      geom_point() +
+      geom_smooth(se = F)
+    
+    ggplot(mpg, aes(x = displ, y = hwy, group = drv)) +
+      geom_point() +
+      geom_smooth(se = F)
+    
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+      geom_point() + 
+      geom_smooth(se = FALSE)
+    
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_point(aes(color = drv)) + 
+      geom_smooth(se = FALSE)
+    
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+      geom_point(aes(color = drv)) + 
+      geom_smooth(se = FALSE, aes(linetype = drv))
+    
+    ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+      geom_point(stroke = 2, color = "white") +
+      geom_point()
+    ```
 
 ## Statistical transformations
+
+### Content
+It is possible to use geoms and stats interchangeably. Each geom has its default stat, and each stat its default geom. For example, `geom_boxplot` uses `stat_count` and vice versa.
+
+Specify the stat in the plotting function like this:
+
+```{r, eval=F}
+ggplot(data = demo) +
+  geom_bar(mapping = aes(x = a, y = b), stat = "identity")
+```
+
+### Exercises
+
+1.  What is the default geom associated with `stat_summary()`? How could
+    you rewrite the previous plot to use that geom function instead of the 
+    stat function?
+    
+    The `stat_summary()` function uses `geom = "pointrange"` by default.
+    
+    Previous plot:
+    ```{r}
+    ggplot(diamonds, aes(x = cut, y = depth)) + 
+      stat_summary(
+        fun.ymin = min,
+        fun.ymax = max,
+        fun.y = median
+      )
+    ```
+    
+    
+    ```{r}
+    ggplot(diamonds, aes(x = cut, y = depth)) + 
+      geom_pointrange(aes(ymin = min(depth), ymax = max(depth)))
+    ```
+
+1.  What does `geom_col()` do? How is it different to `geom_bar()`?
+
+    ```{r}
+    ?geom_bar()
+    ```
+    
+    > `geom_bar` makes the height of the bar proportional to the number of cases 
+    > in each group […]. If you want the heights of the bars to represent values
+    > in the data, use `geom_col` instead. `geom_bar` uses `stat_count` by 
+    > default […]. `geom_col` uses `stat_identity`.
+
+1.  Most geoms and stats come in pairs that are almost always used in 
+    concert. Read through the documentation and make a list of all the 
+    pairs. What do they have in common?
+
+1.  What variables does `stat_smooth()` compute? What parameters control
+    its behaviour?
+
+1.  In our proportion bar chart, we need to set `group = 1`. Why? In other
+    words what is the problem with these two graphs?
+    
+    ```{r, eval = FALSE}
+    ggplot(data = diamonds) + 
+      geom_bar(mapping = aes(x = cut, y = ..prop..))
+    ggplot(data = diamonds) + 
+      geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..))
+    ```
 
 ## Position adjustments
 
