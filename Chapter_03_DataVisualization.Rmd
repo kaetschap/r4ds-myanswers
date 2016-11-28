@@ -451,8 +451,12 @@ ggplot(data = demo) +
     
     
     ```{r}
-    ggplot(diamonds, aes(x = cut, y = depth)) + 
-      geom_pointrange(aes(ymin = min(depth), ymax = max(depth)))
+    diamonds %>% 
+      select(cut, depth) %>%
+      group_by(cut) %>%
+      summarize(mindepth = min(depth), maxdepth = max(depth), mediandepth = median(depth)) %>% 
+      ggplot(aes(x = cut, y = mediandepth, ymin = mindepth, ymax = maxdepth)) + 
+      geom_pointrange()
     ```
 
 1.  What does `geom_col()` do? How is it different to `geom_bar()`?
@@ -469,9 +473,21 @@ ggplot(data = demo) +
 1.  Most geoms and stats come in pairs that are almost always used in 
     concert. Read through the documentation and make a list of all the 
     pairs. What do they have in common?
+    
+    http://docs.ggplot2.org/current/index.html: see stats for each geom
 
 1.  What variables does `stat_smooth()` compute? What parameters control
     its behaviour?
+    
+    `stat_smooth` uses the same arguments as `geom_smooth` but can be used 
+    whenever a non-standard geom should be plotted.
+    It computes a regression line and standard error bounds.
+    It is possible to specify:
+    *   `method`: the smoothing method
+    *   `formula`: the regression formula to be used
+    *   `se`: whether to display a confidence interval around the smoothed 
+    regression line
+    *   etc (read documentation)
 
 1.  In our proportion bar chart, we need to set `group = 1`. Why? In other
     words what is the problem with these two graphs?
@@ -482,8 +498,38 @@ ggplot(data = demo) +
     ggplot(data = diamonds) + 
       geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..))
     ```
+    
+    `group = 1` specifies that all values should be put into one grouping. This 
+    is necessary for the values to be in proportion to the whole population as
+    opposed to just their own group.
+    Without grouping, R computes the values in the plot as follows:
+    fair is 100% of fair, good is 100% of good
+    If the option is set, R computes them like this:
+    fair is 3% of the whole sample, good is 9% etc.
 
 ## Position adjustments
+
+### Content
+
+### Exercises
+
+1.  What is the problem with this plot? How could you improve it?
+
+    ```{r}
+    ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+      geom_point()
+    ```
+
+1.  What parameters to `geom_jitter()` control the amount of jittering?
+
+    `width` and `height` and be set to percentage values with a default of 40% 
+    each.
+
+1.  Compare and contrast `geom_jitter()` with `geom_count()`.
+
+1.  What's the default position adjustment for `geom_boxplot()`? Create
+    a visualisation of the `mpg` dataset that demonstrates it.
+
 
 ## Coordinate systems
 
