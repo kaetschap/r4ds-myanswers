@@ -457,7 +457,7 @@ ggplot(data = demo) +
 
 1.  What does `geom_col()` do? How is it different to `geom_bar()`?
 
-    ```{r}
+    ```{r, eval = F}
     ?geom_bar()
     ```
     
