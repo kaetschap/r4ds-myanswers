@@ -572,10 +572,20 @@ ggplot(data = demo) +
 ### Exercises
 
 1.  Turn a stacked bar chart into a pie chart using `coord_polar()`.
+    ```{r}
+    plot <- ggplot(diamonds) + 
+      geom_bar(aes(x = clarity, fill = clarity), width = 1) + 
+      labs(x = NULL, y = NULL) +
+      coord_flip()
+    plot
+    plot + coord_polar()
+    ```
 
 1.  What does `labs()` do? Read the documentation.
+    `labs()` sets the axis labels
 
 1.  What's the difference between `coord_quickmap()` and `coord_map()`?
+    `coord_quickmap` preserves straight lines in order to save computation time      and is just an approximation of a map projection.
 
 1.  What does the plot below tell you about the relationship between city
     and highway mpg? Why is `coord_fixed()` important? What does 
@@ -587,6 +597,7 @@ ggplot(data = demo) +
       geom_abline() +
       coord_fixed()
     ```
+    
 
 ## The layered grammar of graphics
 
