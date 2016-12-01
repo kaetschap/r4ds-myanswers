@@ -519,6 +519,15 @@ ggplot(data = demo) +
     ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
       geom_point()
     ```
+    
+    ```{r}
+    ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+      geom_point(position = "jitter")
+    ```
+    
+    In order to get a feeling for how many points cluster at each spot it is 
+    helpful to either use jitter, which moves the points by a random amount in 
+    height and width, or opacity.
 
 1.  What parameters to `geom_jitter()` control the amount of jittering?
 
@@ -526,12 +535,58 @@ ggplot(data = demo) +
     each.
 
 1.  Compare and contrast `geom_jitter()` with `geom_count()`.
-
+    ```{r}
+    ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+    geom_count()
+    ```
+    
+    ```{r}
+    ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+    geom_jitter()
+    ```
+    
+    `geom_count()` counts the number of observations that occur at each point in 
+    the coordinate system. The higher that number, the bigger the point in the 
+    point chart.
+    
+    `geom_jitter()` moves the points instead, so that areas with more 
+    observations are visibly denser than others.
+    
 1.  What's the default position adjustment for `geom_boxplot()`? Create
     a visualisation of the `mpg` dataset that demonstrates it.
 
-
+    The default setting for `geom_boxplot()` is `position = "dodge"`.
+    
+    ```{r}
+    ggplot(mpg, aes(x = class, y = hwy)) +
+      geom_boxplot()
+    ```
+    
+    This means that next to each boxplot, there is some space to the side until 
+    the next one follows.
+    
 ## Coordinate systems
+
+### Content
+
+### Exercises
+
+1.  Turn a stacked bar chart into a pie chart using `coord_polar()`.
+
+1.  What does `labs()` do? Read the documentation.
+
+1.  What's the difference between `coord_quickmap()` and `coord_map()`?
+
+1.  What does the plot below tell you about the relationship between city
+    and highway mpg? Why is `coord_fixed()` important? What does 
+    `geom_abline()` do?
+    
+    ```{r, fig.asp = 1, out.width = "50%"}
+    ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+      geom_point() + 
+      geom_abline() +
+      coord_fixed()
+    ```
 
 ## The layered grammar of graphics
 
