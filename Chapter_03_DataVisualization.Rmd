@@ -582,6 +582,7 @@ ggplot(data = demo) +
     ```
 
 1.  What does `labs()` do? Read the documentation.
+    
     `labs()` sets the axis labels
 
 1.  What's the difference between `coord_quickmap()` and `coord_map()`?
@@ -597,6 +598,11 @@ ggplot(data = demo) +
       geom_abline() +
       coord_fixed()
     ```
+    
+    without `coord_fixed()` the plot scales to image/monitor proportions and 
+    might make the relationship between the two variables seem different 
+    depending on the output device.
+    `geom_abline` draws a regression line for the data
     
 
 ## The layered grammar of graphics
