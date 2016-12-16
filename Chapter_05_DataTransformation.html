@@ -404,20 +404,28 @@ library(nycflights13)</code></pre>
 ## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
 ## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre></li>
 <li><p>Which flights travelled the longest? Which travelled the shortest?</p>
-<pre class="r"><code>flights %&gt;% arrange(desc(air_time)) %&gt;% head(1)</code></pre>
-<pre><code>## # A tibble: 1 × 19
+<pre class="r"><code>flights %&gt;% arrange(desc(air_time)) %&gt;% head(5)</code></pre>
+<pre><code>## # A tibble: 5 × 19
 ##    year month   day dep_time sched_dep_time dep_delay arr_time
 ##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
 ## 1  2013     3    17     1337           1335         2     1937
+## 2  2013     2     6      853            900        -7     1542
+## 3  2013     3    15     1001           1000         1     1551
+## 4  2013     3    17     1006           1000         6     1607
+## 5  2013     3    16     1001           1000         1     1544
 ## # ... with 12 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;,
 ## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
 ## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
 ## #   time_hour &lt;dttm&gt;</code></pre>
-<pre class="r"><code>flights %&gt;% arrange(air_time) %&gt;% head(1)</code></pre>
-<pre><code>## # A tibble: 1 × 19
+<pre class="r"><code>flights %&gt;% arrange(air_time) %&gt;% head(5)</code></pre>
+<pre><code>## # A tibble: 5 × 19
 ##    year month   day dep_time sched_dep_time dep_delay arr_time
 ##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
 ## 1  2013     1    16     1355           1315        40     1442
+## 2  2013     4    13      537            527        10      622
+## 3  2013    12     6      922            851        31     1021
+## 4  2013     2     3     2153           2129        24     2247
+## 5  2013     2     5     1303           1315       -12     1342
 ## # ... with 12 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;,
 ## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
 ## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
@@ -463,16 +471,77 @@ library(nycflights13)</code></pre>
 <div id="exercises-mutate" class="section level1">
 <h1>Exercises: mutate()</h1>
 <ol style="list-style-type: decimal">
-<li><p>Currently <code>dep_time</code> and <code>sched_dep_time</code> are convenient to look at, but hard to compute with because they’re not really continuous numbers. Convert them to a more convenient representation of number of minutes since midnight.</p></li>
-<li><p>Compare <code>air_time</code> with <code>arr_time - dep_time</code>. What do you expect to see? What do you see? What do you need to do to fix it?</p></li>
-<li><p>Compare <code>dep_time</code>, <code>sched_dep_time</code>, and <code>dep_delay</code>. How would you expect those three numbers to be related?</p></li>
-<li><p>Find the 10 most delayed flights using a ranking function. How do you want to handle ties? Carefully read the documentation for <code>min_rank()</code>.</p></li>
-<li><p>What does <code>1:3 + 1:10</code> return? Why?</p></li>
-<li><p>What trigonometric functions does R provide?</p></li>
+<li><p>Currently <code>dep_time</code> and <code>sched_dep_time</code> are convenient to look at, but hard to compute with because they’re not really continuous numbers. Convert them to a more convenient representation of number of minutes since midnight.</p>
+<pre class="r"><code>flights2 &lt;- 
+  flights %&gt;% 
+  mutate(
+    arr_time = (arr_time %/% 100) * 60 + (arr_time %% 100),
+    sched_arr_time = (sched_arr_time %/% 100) * 60 + (sched_arr_time %% 100),
+    dep_time = (dep_time %/% 100) * 60 + (dep_time %% 100),
+    sched_dep_time = (sched_dep_time %/% 100) * 60 + (sched_dep_time %% 100)
+  )</code></pre></li>
+<li><p>Compare <code>air_time</code> with <code>arr_time - dep_time</code>. What do you expect to see? What do you see? What do you need to do to fix it?</p>
+<pre class="r"><code>flights2 %&gt;% 
+  select(flight, arr_time, dep_time, air_time) %&gt;%
+  mutate(air_time2 = (arr_time - dep_time))</code></pre>
+<pre><code>## # A tibble: 336,776 × 5
+##    flight arr_time dep_time air_time air_time2
+##     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1    1545      510      317      227       193
+## 2    1714      530      333      227       197
+## 3    1141      563      342      160       221
+## 4     725      604      344      183       260
+## 5     461      492      354      116       138
+## 6    1696      460      354      150       106
+## 7     507      553      355      158       198
+## 8    5708      429      357       53        72
+## 9      79      518      357      140       161
+## 10    301      473      358      138       115
+## # ... with 336,766 more rows</code></pre></li>
+<li><p>Compare <code>dep_time</code>, <code>sched_dep_time</code>, and <code>dep_delay</code>. How would you expect those three numbers to be related?</p>
+<pre class="r"><code>flights2 %&gt;%
+  select(dep_time, sched_dep_time, dep_delay) %&gt;%
+  mutate(dep_time2 = sched_dep_time + dep_delay) %&gt;%
+  mutate(dep_dev = dep_time - dep_time2) %&gt;%
+  filter(dep_dev &gt; 0)</code></pre>
+<pre><code>## # A tibble: 0 × 5
+## # ... with 5 variables: dep_time &lt;dbl&gt;, sched_dep_time &lt;dbl&gt;,
+## #   dep_delay &lt;dbl&gt;, dep_time2 &lt;dbl&gt;, dep_dev &lt;dbl&gt;</code></pre></li>
+<li><p>Find the 10 most delayed flights using a ranking function. How do you want to handle ties? Carefully read the documentation for <code>min_rank()</code>.</p>
+<pre class="r"><code>flights2 %&gt;%
+  select(flight, sched_dep_time, dep_time, dep_delay) %&gt;%
+  mutate(rank_dep_delay = min_rank(dep_delay)) %&gt;%
+  arrange(rank_dep_delay) %&gt;%
+  head(10)</code></pre>
+<pre><code>## # A tibble: 10 × 5
+##    flight sched_dep_time dep_time dep_delay rank_dep_delay
+##     &lt;int&gt;          &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;          &lt;int&gt;
+## 1      97           1283     1240       -43              1
+## 2    1715           1255     1222       -33              2
+## 3    5713            880      848       -32              3
+## 4    1435           1170     1140       -30              4
+## 5     837           1050     1023       -27              5
+## 6    3478            475      449       -26              6
+## 7    4361           1172     1147       -25              7
+## 8    4573           1255     1230       -25              7
+## 9    3318            895      871       -24              9
+## 10    375            598      574       -24              9</code></pre></li>
+<li><p>What does <code>1:3 + 1:10</code> return? Why?</p>
+<p>It returns a warning message: <code>Warning message: In c(1:3) + c(1:10) : longer object length is not a multiple of shorter object  length</code>. This is since 10 is not a multiple of three, else R would have taken the shorter vector multiple times end-to-end, like in this example:</p>
+<pre class="r"><code>1:5</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre class="r"><code>1:10</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>1:5 + 1:10</code></pre>
+<pre><code>##  [1]  2  4  6  8 10  7  9 11 13 15</code></pre></li>
+<li><p>What trigonometric functions does R provide?</p>
+<pre class="r"><code>??trigono</code></pre>
+<p>R provides trigonometric functions via <code>base::Trig</code>, namely <code>cos()</code>, <code>sin()</code>, <code>tan()</code>, <code>acos()</code>, <code>asin()</code>, <code>atan()</code>, <code>atan2()</code>,<br />
+<code>cospi()</code>, <code>sinpi()</code>, <code>tanpi()</code>.</p></li>
 </ol>
 </div>
-<div id="exercises" class="section level1">
-<h1>Exercises</h1>
+<div id="exercises-summarize" class="section level1">
+<h1>Exercises: summarize()</h1>
 <ol style="list-style-type: decimal">
 <li><p>Brainstorm at least 5 different ways to assess the typical delay characteristics of a group of flights. Consider the following scenarios:</p>
 <ul>
@@ -490,8 +559,8 @@ library(nycflights13)</code></pre>
 <li><p>What does the <code>sort</code> argument to <code>count()</code> do. When might you use it?</p></li>
 </ol>
 </div>
-<div id="exercises-1" class="section level1">
-<h1>Exercises</h1>
+<div id="exercises-group_by-and-mutate" class="section level1">
+<h1>Exercises: group_by() and mutate()</h1>
 <ol style="list-style-type: decimal">
 <li><p>Refer back to the table of useful mutate and filtering functions. Describe how each operation changes when you combine it with grouping.</p></li>
 <li><p>Which plane (<code>tailnum</code>) has the worst on-time record?</p></li>

@@ -209,41 +209,70 @@ ggplot(flights, aes(air_time - airtime2)) + geom_histogram()
     since midnight.
     
     ```{r}
-
+    flights2 <- 
+      flights %>% 
+      mutate(
+        arr_time = (arr_time %/% 100) * 60 + (arr_time %% 100),
+        sched_arr_time = (sched_arr_time %/% 100) * 60 + (sched_arr_time %% 100),
+        dep_time = (dep_time %/% 100) * 60 + (dep_time %% 100),
+        sched_dep_time = (sched_dep_time %/% 100) * 60 + (sched_dep_time %% 100)
+      )
     ```
     
 1.  Compare `air_time` with `arr_time - dep_time`. What do you expect to see?
     What do you see? What do you need to do to fix it?
     
     ```{r}
-
+    flights2 %>% 
+      select(flight, arr_time, dep_time, air_time) %>%
+      mutate(air_time2 = (arr_time - dep_time))
     ```
+    
     
 1.  Compare `dep_time`, `sched_dep_time`, and `dep_delay`. How would you
     expect those three numbers to be related?
     
     ```{r}
-
+    flights2 %>%
+      select(dep_time, sched_dep_time, dep_delay) %>%
+      mutate(dep_time2 = sched_dep_time + dep_delay) %>%
+      mutate(dep_dev = dep_time - dep_time2) %>%
+      filter(dep_dev > 0)
     ```
 
 1.  Find the 10 most delayed flights using a ranking function. How do you want 
     to handle ties? Carefully read the documentation for `min_rank()`.
     
     ```{r}
-
+    flights2 %>%
+      select(flight, sched_dep_time, dep_time, dep_delay) %>%
+      mutate(rank_dep_delay = min_rank(dep_delay)) %>%
+      arrange(rank_dep_delay) %>%
+      head(10)
     ```
 
 1.  What does `1:3 + 1:10` return? Why?
 
+    It returns a warning message: `Warning message: In c(1:3) + c(1:10) : longer object length is not a multiple of shorter object 
+    length`. This is since 10 is not a multiple of three, else R would have taken the shorter vector multiple times end-to-end, like in 
+    this example:
+    
     ```{r}
-
+    1:5
+    1:10
+    1:5 + 1:10
     ```
+    
 
 1.  What trigonometric functions does R provide?
 
-    ```{r}
-
+    ```{r, eval = F}
+    ??trigono
     ```
+    
+    R provides trigonometric functions via `base::Trig`, namely `cos()`, `sin()`, `tan()`, `acos()`, `asin()`, `atan()`, `atan2()`,   
+    `cospi()`, `sinpi()`, `tanpi()`.
+    
 
 # Exercises: summarize()
 
