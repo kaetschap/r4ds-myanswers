@@ -290,6 +290,15 @@ ggplot(flights, aes(air_time - airtime2)) + geom_histogram()
     * 99% of the time a flight is on time. 1% of the time it's 2 hours late.
     
     Which is more important: arrival delay or departure delay?
+    
+    Departure delay could still be made up in the air, by flying faster for example. Arrival delay is what counts.
+    
+    ```{r}
+    not_cancelled <- flights %>% filter(!is.na(dep_delay), !is.na(arr_delay))
+    
+    not_cancelled %>% summarize(med_arr_delay = median(arr_delay), min_arr_delay = min(arr_delay), max_arr_delay = max(arr_delay))
+
+    ```
 
 1.  Come up with another approach that will give you the same output as 
     `not_cancelled %>% count(dest)` and 
@@ -297,21 +306,33 @@ ggplot(flights, aes(air_time - airtime2)) + geom_histogram()
     `count()`).
     
     ```{r}
-
+    not_cancelled %>% group_by(dest) %>% summarize(delay = mean(arr_delay), n = n()) %>% select(-delay)
+    not_cancelled %>% group_by(tailnum) %>% summarize(n = sum(distance))
     ```
 
 1.  Our definition of cancelled flights (`is.na(dep_delay) | is.na(arr_delay)`
     ) is slightly suboptimal. Why? Which is the most important column?
     
     ```{r}
-
+    flights %>% filter(is.na(dep_delay) & !is.na(arr_delay)) %>% nrow
+    flights %>% filter(!is.na(dep_delay) & is.na(arr_delay)) %>% nrow
+    flights %>% filter(is.na(arr_delay)) %>% nrow
+    flights %>% filter(is.na(air_time)) %>% nrow
     ```
+    
+    There are no flight with an departure delay of `NA` and a non-missing arrival delay. The other way around, there are 1,175 flights. 
+    Thus, the arrival delay is more important. However, whenever the arrival delay is `NA`, so is air time. So this column may be the 
+    better indicator of a cancelled flight.
 
 1.  Look at the number of cancelled flights per day. Is there a pattern?
     Is the proportion of cancelled flights related to the average delay?
     
     ```{r}
-
+    cancelled <- flights %>% filter(is.na(air_time))
+    cancelled_ymd <- cancelled %>% mutate(date = as.Date(paste0(year, "-",month,"-",day))) %>% count(date) 
+    
+    ggplot(cancelled_ymd, aes(x = date, y = n)) +
+      geom_line()
     ```
 
 1.  Which carrier has the worst delays? Challenge: can you disentangle the
@@ -319,8 +340,20 @@ ggplot(flights, aes(air_time - airtime2)) + geom_histogram()
     `flights %>% group_by(carrier, dest) %>% summarise(n())`)
     
     ```{r}
-
+    flights %>% 
+      filter(!is.na(arr_delay)) %>%
+      group_by(carrier) %>%
+      summarize(avg_delay = mean(arr_delay)) %>%
+      arrange(desc(avg_delay))
     ```
+    
+    ```{r}
+    airlines 
+    ```
+    
+    F9 (Frontier Airlines) has the worst delays. 
+    
+    If bad carriers have a high share of flights in an airport, they are going to affect that airport's delays. If an airline has a high share of bad airports, they are going to make the airline look bad. It is necessary to look at the share of airports and airlines - if airlines are relatively evenly distributed amonst airports and one airline uses each airport around the same number of time, it should be possible to make the distinction between bad airports and bad airlines.
 
 1.  For each plane, count the number of flights before the first delay 
     of greater than 1 hour.
