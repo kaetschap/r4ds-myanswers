@@ -126,16 +126,17 @@ $(document).ready(function () {
 <pre class="r"><code>library(tidyverse)
 library(nycflights13)</code></pre>
 <div id="exercises-filter" class="section level1">
-<h1>Exercises: filter()</h1>
+<h1>Exercises: <code>filter()</code></h1>
 <ol style="list-style-type: decimal">
 <li><p>Find all flights that</p>
 <ol style="list-style-type: decimal">
 <li>Had an arrival delay of two or more hours</li>
 </ol>
 <pre class="r"><code>flights %&gt;% filter(arr_delay &gt;= 120)</code></pre>
-<pre><code>## # A tibble: 10,200 × 19
+<pre><code>## Source: local data frame [10,200 x 19]
+## 
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##    (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1   2013     1     1      811            630       101     1047
 ## 2   2013     1     1      848           1835       853     1001
 ## 3   2013     1     1      957            733       144     1056
@@ -146,17 +147,18 @@ library(nycflights13)</code></pre>
 ## 8   2013     1     1     1558           1359       119     1718
 ## 9   2013     1     1     1732           1630        62     2028
 ## 10  2013     1     1     1803           1620       103     2008
-## # ... with 10,190 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
-## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
-## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
-## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## ..   ...   ...   ...      ...            ...       ...      ...
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre>
 <ol style="list-style-type: decimal">
 <li>Flew to Houston (<code>IAH</code> or <code>HOU</code>)</li>
 </ol>
 <pre class="r"><code>flights %&gt;% filter(dest %in% c('IAH', 'HOU'))</code></pre>
-<pre><code>## # A tibble: 9,313 × 19
+<pre><code>## Source: local data frame [9,313 x 19]
+## 
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##    (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1   2013     1     1      517            515         2      830
 ## 2   2013     1     1      533            529         4      850
 ## 3   2013     1     1      623            627        -4      933
@@ -167,17 +169,18 @@ library(nycflights13)</code></pre>
 ## 8   2013     1     1     1044           1045        -1     1352
 ## 9   2013     1     1     1114            900       134     1447
 ## 10  2013     1     1     1205           1200         5     1503
-## # ... with 9,303 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
-## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
-## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
-## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## ..   ...   ...   ...      ...            ...       ...      ...
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre>
 <ol style="list-style-type: decimal">
 <li>Were operated by United, American, or Delta</li>
 </ol>
 <pre class="r"><code>flights %&gt;% filter(carrier %in% c('UA', 'AA', 'DL'))</code></pre>
-<pre><code>## # A tibble: 139,504 × 19
+<pre><code>## Source: local data frame [139,504 x 19]
+## 
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##    (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1   2013     1     1      517            515         2      830
 ## 2   2013     1     1      533            529         4      850
 ## 3   2013     1     1      542            540         2      923
@@ -188,17 +191,18 @@ library(nycflights13)</code></pre>
 ## 8   2013     1     1      558            600        -2      923
 ## 9   2013     1     1      559            600        -1      941
 ## 10  2013     1     1      559            600        -1      854
-## # ... with 139,494 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
-## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
-## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
-## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## ..   ...   ...   ...      ...            ...       ...      ...
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre>
 <ol style="list-style-type: decimal">
 <li>Departed in summer (July, August, and September)</li>
 </ol>
 <pre class="r"><code>flights %&gt;% filter(month %in% c(7,8,9))</code></pre>
-<pre><code>## # A tibble: 86,326 × 19
+<pre><code>## Source: local data frame [86,326 x 19]
+## 
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##    (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1   2013     7     1        1           2029       212      236
 ## 2   2013     7     1        2           2359         3      344
 ## 3   2013     7     1       29           2245       104      151
@@ -209,17 +213,18 @@ library(nycflights13)</code></pre>
 ## 8   2013     7     1       58           2155       183      335
 ## 9   2013     7     1      100           2146       194      327
 ## 10  2013     7     1      100           2245       135      337
-## # ... with 86,316 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
-## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
-## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
-## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## ..   ...   ...   ...      ...            ...       ...      ...
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre>
 <ol style="list-style-type: decimal">
 <li>Arrived more than two hours late, but didn’t leave late</li>
 </ol>
 <pre class="r"><code>flights %&gt;% filter(dep_delay &lt;= 0 &amp; arr_delay &gt; 120)</code></pre>
-<pre><code>## # A tibble: 29 × 19
+<pre><code>## Source: local data frame [29 x 19]
+## 
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##    (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1   2013     1    27     1419           1420        -1     1754
 ## 2   2013    10     7     1350           1350         0     1736
 ## 3   2013    10     7     1357           1359        -2     1858
@@ -230,17 +235,18 @@ library(nycflights13)</code></pre>
 ## 8   2013     4    18      558            600        -2     1149
 ## 9   2013     4    18      655            700        -5     1213
 ## 10  2013     5    22     1827           1830        -3     2217
-## # ... with 19 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
-## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
-## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
-## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## ..   ...   ...   ...      ...            ...       ...      ...
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre>
 <ol style="list-style-type: decimal">
 <li>Were delayed by at least an hour, but made up over 30 minutes in flight</li>
 </ol>
 <pre class="r"><code>flights %&gt;% filter(dep_delay &gt;= 60 &amp; arr_delay &lt; (dep_delay - 30))</code></pre>
-<pre><code>## # A tibble: 1,844 × 19
+<pre><code>## Source: local data frame [1,844 x 19]
+## 
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##    (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1   2013     1     1     2205           1720       285       46
 ## 2   2013     1     1     2326           2130       116      131
 ## 3   2013     1     3     1503           1221       162     1803
@@ -251,17 +257,18 @@ library(nycflights13)</code></pre>
 ## 8   2013     1     3     2015           1915        60     2135
 ## 9   2013     1     3     2257           2000       177       45
 ## 10  2013     1     4     1917           1700       137     2135
-## # ... with 1,834 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
-## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
-## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
-## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+## ..   ...   ...   ...      ...            ...       ...      ...
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre>
 <ol style="list-style-type: decimal">
 <li>Departed between midnight and 6am (inclusive)</li>
 </ol>
 <pre class="r"><code>flights %&gt;% filter(dep_time &gt;= 0 &amp; dep_time &lt;= 600)</code></pre>
-<pre><code>## # A tibble: 9,344 × 19
+<pre><code>## Source: local data frame [9,344 x 19]
+## 
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##    (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1   2013     1     1      517            515         2      830
 ## 2   2013     1     1      533            529         4      850
 ## 3   2013     1     1      542            540         2      923
@@ -272,15 +279,16 @@ library(nycflights13)</code></pre>
 ## 8   2013     1     1      557            600        -3      709
 ## 9   2013     1     1      557            600        -3      838
 ## 10  2013     1     1      558            600        -2      753
-## # ... with 9,334 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
-## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
-## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
-## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre></li>
+## ..   ...   ...   ...      ...            ...       ...      ...
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre></li>
 <li><p>Another useful dplyr filtering helper is <code>between()</code>. What does it do? Can you use it to simplify the code needed to answer the previous challenges?</p>
 <pre class="r"><code>flights %&gt;% filter( between(dep_time, 0, 600) )</code></pre>
-<pre><code>## # A tibble: 9,344 × 19
+<pre><code>## Source: local data frame [9,344 x 19]
+## 
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##    (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1   2013     1     1      517            515         2      830
 ## 2   2013     1     1      533            529         4      850
 ## 3   2013     1     1      542            540         2      923
@@ -291,10 +299,10 @@ library(nycflights13)</code></pre>
 ## 8   2013     1     1      557            600        -3      709
 ## 9   2013     1     1      557            600        -3      838
 ## 10  2013     1     1      558            600        -2      753
-## # ... with 9,334 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
-## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
-## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
-## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre></li>
+## ..   ...   ...   ...      ...            ...       ...      ...
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre></li>
 <li><p>How many flights have a missing <code>dep_time</code>? What other variables are missing? What might these rows represent?</p>
 <pre class="r"><code>flights %&gt;% filter(is.na(dep_time)) %&gt;% nrow</code></pre>
 <pre><code>## [1] 8255</code></pre>
@@ -312,13 +320,14 @@ library(nycflights13)</code></pre>
 </ol>
 </div>
 <div id="exercises-arrange" class="section level1">
-<h1>Exercises: arrange()</h1>
+<h1>Exercises: <code>arrange()</code></h1>
 <ol style="list-style-type: decimal">
 <li><p>How could you use <code>arrange()</code> to sort all missing values to the start? (Hint: use <code>is.na()</code>).</p>
 <pre class="r"><code>flights %&gt;% arrange(!is.na(dep_time))</code></pre>
-<pre><code>## # A tibble: 336,776 × 19
+<pre><code>## Source: local data frame [336,776 x 19]
+## 
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##    (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1   2013     1     1       NA           1630        NA       NA
 ## 2   2013     1     1       NA           1935        NA       NA
 ## 3   2013     1     1       NA           1500        NA       NA
@@ -329,37 +338,37 @@ library(nycflights13)</code></pre>
 ## 8   2013     1     2       NA           1420        NA       NA
 ## 9   2013     1     2       NA           1321        NA       NA
 ## 10  2013     1     2       NA           1545        NA       NA
-## # ... with 336,766 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
-## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
-## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
-## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre></li>
+## ..   ...   ...   ...      ...            ...       ...      ...
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre></li>
 <li><p>Sort <code>flights</code> to find the most delayed flights. Find the flights that left earliest.</p>
 <pre class="r"><code>flights %&gt;% arrange(desc(arr_delay)) %&gt;% head(5)</code></pre>
-<pre><code>## # A tibble: 5 × 19
+<pre><code>## Source: local data frame [5 x 19]
+## 
 ##    year month   day dep_time sched_dep_time dep_delay arr_time
-##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##   (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1  2013     1     9      641            900      1301     1242
 ## 2  2013     6    15     1432           1935      1137     1607
 ## 3  2013     1    10     1121           1635      1126     1239
 ## 4  2013     9    20     1139           1845      1014     1457
 ## 5  2013     7    22      845           1600      1005     1044
-## # ... with 12 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;,
-## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
-## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
-## #   time_hour &lt;dttm&gt;</code></pre>
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre>
 <pre class="r"><code>flights %&gt;% arrange(dep_time) %&gt;% head(5)</code></pre>
-<pre><code>## # A tibble: 5 × 19
+<pre><code>## Source: local data frame [5 x 19]
+## 
 ##    year month   day dep_time sched_dep_time dep_delay arr_time
-##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##   (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1  2013     1    13        1           2249        72      108
 ## 2  2013     1    31        1           2100       181      124
 ## 3  2013    11    13        1           2359         2      442
 ## 4  2013    12    16        1           2359         2      447
 ## 5  2013    12    20        1           2359         2      430
-## # ... with 12 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;,
-## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
-## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
-## #   time_hour &lt;dttm&gt;</code></pre></li>
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre></li>
 <li><p>Sort <code>flights</code> to find the fastest flights.</p>
 <p>Fast in terms of air time:</p>
 <pre class="r"><code>flights %&gt;% 
@@ -372,23 +381,24 @@ library(nycflights13)</code></pre>
 ## Groups: origin [3]
 ## 
 ##    origin  dest min_air_time max_air_time mean_air_time
-##     &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;
+##     (chr) (chr)        (dbl)        (dbl)         (dbl)
 ## 1     EWR   BDL           20           56         25.47
 ## 2     EWR   PHL           21           39         28.67
-## 3     JFK   PHL           21           61         30.84
-## 4     LGA   BOS           21          107         37.85
-## 5     EWR   ALB           24           50         31.79
-## 6     JFK   BOS           26           96         38.48
-## 7     LGA   PHL           26           75         37.03
-## 8     EWR   PVD           27           52         32.67
-## 9     EWR   BOS           30          112         40.31
-## 10    EWR   SYR           30           47         38.99
-## # ... with 213 more rows</code></pre>
+## 3     EWR   ALB           24           50         31.79
+## 4     EWR   PVD           27           52         32.67
+## 5     EWR   BOS           30          112         40.31
+## 6     EWR   SYR           30           47         38.99
+## 7     EWR   BWI           31           59         37.16
+## 8     EWR   MHT           31           58         38.91
+## 9     EWR   DCA           32           73         42.60
+## 10    EWR   BTV           34           69         46.26
+## ..    ...   ...          ...          ...           ...</code></pre>
 <p>Fast in terms of smallest delay:</p>
 <pre class="r"><code>flights %&gt;% arrange((dep_delay+arr_delay))</code></pre>
-<pre><code>## # A tibble: 336,776 × 19
+<pre><code>## Source: local data frame [336,776 x 19]
+## 
 ##     year month   day dep_time sched_dep_time dep_delay arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##    (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1   2013     5     7     1715           1729       -14     1944
 ## 2   2013     5    20      719            735       -16      951
 ## 3   2013     2     3     2022           2055       -33     2240
@@ -399,50 +409,51 @@ library(nycflights13)</code></pre>
 ## 8   2013     5     6     1846           1859       -13     2026
 ## 9   2013    11    13      750            803       -13      925
 ## 10  2013     7    14     2041           2059       -18     2205
-## # ... with 336,766 more rows, and 12 more variables: sched_arr_time &lt;int&gt;,
-## #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,
-## #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,
-## #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre></li>
+## ..   ...   ...   ...      ...            ...       ...      ...
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre></li>
 <li><p>Which flights travelled the longest? Which travelled the shortest?</p>
 <pre class="r"><code>flights %&gt;% arrange(desc(air_time)) %&gt;% head(5)</code></pre>
-<pre><code>## # A tibble: 5 × 19
+<pre><code>## Source: local data frame [5 x 19]
+## 
 ##    year month   day dep_time sched_dep_time dep_delay arr_time
-##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##   (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1  2013     3    17     1337           1335         2     1937
 ## 2  2013     2     6      853            900        -7     1542
 ## 3  2013     3    15     1001           1000         1     1551
 ## 4  2013     3    17     1006           1000         6     1607
 ## 5  2013     3    16     1001           1000         1     1544
-## # ... with 12 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;,
-## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
-## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
-## #   time_hour &lt;dttm&gt;</code></pre>
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre>
 <pre class="r"><code>flights %&gt;% arrange(air_time) %&gt;% head(5)</code></pre>
-<pre><code>## # A tibble: 5 × 19
+<pre><code>## Source: local data frame [5 x 19]
+## 
 ##    year month   day dep_time sched_dep_time dep_delay arr_time
-##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;
+##   (int) (int) (int)    (int)          (int)     (dbl)    (int)
 ## 1  2013     1    16     1355           1315        40     1442
 ## 2  2013     4    13      537            527        10      622
 ## 3  2013    12     6      922            851        31     1021
 ## 4  2013     2     3     2153           2129        24     2247
 ## 5  2013     2     5     1303           1315       -12     1342
-## # ... with 12 more variables: sched_arr_time &lt;int&gt;, arr_delay &lt;dbl&gt;,
-## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
-## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,
-## #   time_hour &lt;dttm&gt;</code></pre></li>
+## Variables not shown: sched_arr_time (int), arr_delay (dbl), carrier (chr),
+##   flight (int), tailnum (chr), origin (chr), dest (chr), air_time (dbl),
+##   distance (dbl), hour (dbl), minute (dbl), time_hour (time)</code></pre></li>
 </ol>
 </div>
 <div id="exercises-select" class="section level1">
-<h1>Exercises: select()</h1>
+<h1>Exercises: <code>select()</code></h1>
 <ol style="list-style-type: decimal">
 <li><p>Brainstorm as many ways as possible to select <code>dep_time</code>, <code>dep_delay</code>, <code>arr_time</code>, and <code>arr_delay</code> from <code>flights</code>.</p>
 <p>No.</p></li>
 <li><p>What happens if you include the name of a variable multiple times in a <code>select()</code> call?</p>
 <p>The column appears only once, at the first location it was mentioned.</p>
 <pre class="r"><code>flights %&gt;% select(air_time, distance, air_time)</code></pre>
-<pre><code>## # A tibble: 336,776 × 2
+<pre><code>## Source: local data frame [336,776 x 2]
+## 
 ##    air_time distance
-##       &lt;dbl&gt;    &lt;dbl&gt;
+##       (dbl)    (dbl)
 ## 1       227     1400
 ## 2       227     1416
 ## 3       160     1089
@@ -453,7 +464,7 @@ library(nycflights13)</code></pre>
 ## 8        53      229
 ## 9       140      944
 ## 10      138      733
-## # ... with 336,766 more rows</code></pre></li>
+## ..      ...      ...</code></pre></li>
 <li><p>What does the <code>one_of()</code> function do? Why might it be helpful in conjunction with this vector?</p>
 <pre class="r"><code>vars &lt;- c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;, &quot;dep_delay&quot;, &quot;arr_delay&quot;)</code></pre>
 <p>This fails:</p>
@@ -469,7 +480,7 @@ library(nycflights13)</code></pre>
 </ol>
 </div>
 <div id="exercises-mutate" class="section level1">
-<h1>Exercises: mutate()</h1>
+<h1>Exercises: <code>mutate()</code></h1>
 <ol style="list-style-type: decimal">
 <li><p>Currently <code>dep_time</code> and <code>sched_dep_time</code> are convenient to look at, but hard to compute with because they’re not really continuous numbers. Convert them to a more convenient representation of number of minutes since midnight.</p>
 <pre class="r"><code>flights2 &lt;- 
@@ -484,9 +495,10 @@ library(nycflights13)</code></pre>
 <pre class="r"><code>flights2 %&gt;% 
   select(flight, arr_time, dep_time, air_time) %&gt;%
   mutate(air_time2 = (arr_time - dep_time))</code></pre>
-<pre><code>## # A tibble: 336,776 × 5
+<pre><code>## Source: local data frame [336,776 x 5]
+## 
 ##    flight arr_time dep_time air_time air_time2
-##     &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##     (int)    (dbl)    (dbl)    (dbl)     (dbl)
 ## 1    1545      510      317      227       193
 ## 2    1714      530      333      227       197
 ## 3    1141      563      342      160       221
@@ -497,25 +509,27 @@ library(nycflights13)</code></pre>
 ## 8    5708      429      357       53        72
 ## 9      79      518      357      140       161
 ## 10    301      473      358      138       115
-## # ... with 336,766 more rows</code></pre></li>
+## ..    ...      ...      ...      ...       ...</code></pre></li>
 <li><p>Compare <code>dep_time</code>, <code>sched_dep_time</code>, and <code>dep_delay</code>. How would you expect those three numbers to be related?</p>
 <pre class="r"><code>flights2 %&gt;%
   select(dep_time, sched_dep_time, dep_delay) %&gt;%
   mutate(dep_time2 = sched_dep_time + dep_delay) %&gt;%
   mutate(dep_dev = dep_time - dep_time2) %&gt;%
   filter(dep_dev &gt; 0)</code></pre>
-<pre><code>## # A tibble: 0 × 5
-## # ... with 5 variables: dep_time &lt;dbl&gt;, sched_dep_time &lt;dbl&gt;,
-## #   dep_delay &lt;dbl&gt;, dep_time2 &lt;dbl&gt;, dep_dev &lt;dbl&gt;</code></pre></li>
+<pre><code>## Source: local data frame [0 x 5]
+## 
+## Variables not shown: dep_time (dbl), sched_dep_time (dbl), dep_delay
+##   (dbl), dep_time2 (dbl), dep_dev (dbl)</code></pre></li>
 <li><p>Find the 10 most delayed flights using a ranking function. How do you want to handle ties? Carefully read the documentation for <code>min_rank()</code>.</p>
 <pre class="r"><code>flights2 %&gt;%
   select(flight, sched_dep_time, dep_time, dep_delay) %&gt;%
   mutate(rank_dep_delay = min_rank(dep_delay)) %&gt;%
   arrange(rank_dep_delay) %&gt;%
   head(10)</code></pre>
-<pre><code>## # A tibble: 10 × 5
+<pre><code>## Source: local data frame [10 x 5]
+## 
 ##    flight sched_dep_time dep_time dep_delay rank_dep_delay
-##     &lt;int&gt;          &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;          &lt;int&gt;
+##     (int)          (dbl)    (dbl)     (dbl)          (int)
 ## 1      97           1283     1240       -43              1
 ## 2    1715           1255     1222       -33              2
 ## 3    5713            880      848       -32              3
@@ -541,7 +555,7 @@ library(nycflights13)</code></pre>
 </ol>
 </div>
 <div id="exercises-summarize" class="section level1">
-<h1>Exercises: summarize()</h1>
+<h1>Exercises: <code>summarize()</code></h1>
 <ol style="list-style-type: decimal">
 <li><p>Brainstorm at least 5 different ways to assess the typical delay characteristics of a group of flights. Consider the following scenarios:</p>
 <ul>
@@ -550,21 +564,206 @@ library(nycflights13)</code></pre>
 <li><p>A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of the time.</p></li>
 <li><p>99% of the time a flight is on time. 1% of the time it’s 2 hours late.</p></li>
 </ul>
-<p>Which is more important: arrival delay or departure delay?</p></li>
-<li><p>Come up with another approach that will give you the same output as <code>not_cancelled %&gt;% count(dest)</code> and <code>not_cancelled %&gt;% count(tailnum, wt = distance)</code> (without using <code>count()</code>).</p></li>
-<li><p>Our definition of cancelled flights (<code>is.na(dep_delay) | is.na(arr_delay)</code> ) is slightly suboptimal. Why? Which is the most important column?</p></li>
-<li><p>Look at the number of cancelled flights per day. Is there a pattern? Is the proportion of cancelled flights related to the average delay?</p></li>
-<li><p>Which carrier has the worst delays? Challenge: can you disentangle the effects of bad airports vs. bad carriers? Why/why not? (Hint: think about <code>flights %&gt;% group_by(carrier, dest) %&gt;% summarise(n())</code>)</p></li>
-<li><p>For each plane, count the number of flights before the first delay of greater than 1 hour.</p></li>
-<li><p>What does the <code>sort</code> argument to <code>count()</code> do. When might you use it?</p></li>
+<p>Which is more important: arrival delay or departure delay?</p>
+<p>Departure delay could still be made up in the air, by flying faster for example. Arrival delay is what counts.</p>
+<pre class="r"><code>not_cancelled &lt;- flights %&gt;% filter(!is.na(dep_delay), !is.na(arr_delay))
+
+not_cancelled %&gt;% summarize(med_arr_delay = median(arr_delay), min_arr_delay = min(arr_delay), max_arr_delay = max(arr_delay))</code></pre>
+<pre><code>## Source: local data frame [1 x 3]
+## 
+##   med_arr_delay min_arr_delay max_arr_delay
+##           (dbl)         (dbl)         (dbl)
+## 1            -5           -86          1272</code></pre></li>
+<li><p>Come up with another approach that will give you the same output as <code>not_cancelled %&gt;% count(dest)</code> and <code>not_cancelled %&gt;% count(tailnum, wt = distance)</code> (without using <code>count()</code>).</p>
+<pre class="r"><code>not_cancelled %&gt;% group_by(dest) %&gt;% summarize(delay = mean(arr_delay), n = n()) %&gt;% select(-delay)</code></pre>
+<pre><code>## Source: local data frame [104 x 2]
+## 
+##     dest     n
+##    (chr) (int)
+## 1    ABQ   254
+## 2    ACK   264
+## 3    ALB   418
+## 4    ANC     8
+## 5    ATL 16837
+## 6    AUS  2411
+## 7    AVL   261
+## 8    BDL   412
+## 9    BGR   358
+## 10   BHM   269
+## ..   ...   ...</code></pre>
+<pre class="r"><code>not_cancelled %&gt;% group_by(tailnum) %&gt;% summarize(n = sum(distance))</code></pre>
+<pre><code>## Source: local data frame [4,037 x 2]
+## 
+##    tailnum      n
+##      (chr)  (dbl)
+## 1   D942DN   3418
+## 2   N0EGMQ 239143
+## 3   N10156 109664
+## 4   N102UW  25722
+## 5   N103US  24619
+## 6   N104UW  24616
+## 7   N10575 139903
+## 8   N105UW  23618
+## 9   N107US  21677
+## 10  N108UW  32070
+## ..     ...    ...</code></pre></li>
+<li><p>Our definition of cancelled flights (<code>is.na(dep_delay) | is.na(arr_delay)</code> ) is slightly suboptimal. Why? Which is the most important column?</p>
+<pre class="r"><code>flights %&gt;% filter(is.na(dep_delay) &amp; !is.na(arr_delay)) %&gt;% nrow</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>flights %&gt;% filter(!is.na(dep_delay) &amp; is.na(arr_delay)) %&gt;% nrow</code></pre>
+<pre><code>## [1] 1175</code></pre>
+<pre class="r"><code>flights %&gt;% filter(is.na(arr_delay)) %&gt;% nrow</code></pre>
+<pre><code>## [1] 9430</code></pre>
+<pre class="r"><code>flights %&gt;% filter(is.na(air_time)) %&gt;% nrow</code></pre>
+<pre><code>## [1] 9430</code></pre>
+<p>There are no flight with an departure delay of <code>NA</code> and a non-missing arrival delay. The other way around, there are 1,175 flights. Thus, the arrival delay is more important. However, whenever the arrival delay is <code>NA</code>, so is air time. So this column may be the better indicator of a cancelled flight.</p></li>
+<li><p>Look at the number of cancelled flights per day. Is there a pattern? Is the proportion of cancelled flights related to the average delay?</p>
+<pre class="r"><code>cancelled &lt;- flights %&gt;% filter(is.na(air_time))
+cancelled_ymd &lt;- cancelled %&gt;% mutate(date = as.Date(paste0(year, &quot;-&quot;,month,&quot;-&quot;,day))) %&gt;% count(date) 
+
+ggplot(cancelled_ymd, aes(x = date, y = n)) +
+  geom_line()</code></pre>
+<p><img src="data:image/png;base64,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" width="672" /></p></li>
+<li><p>Which carrier has the worst delays? Challenge: can you disentangle the effects of bad airports vs. bad carriers? Why/why not? (Hint: think about <code>flights %&gt;% group_by(carrier, dest) %&gt;% summarise(n())</code>)</p>
+<pre class="r"><code>flights %&gt;% 
+  filter(!is.na(arr_delay)) %&gt;%
+  group_by(carrier) %&gt;%
+  summarize(avg_delay = mean(arr_delay)) %&gt;%
+  arrange(desc(avg_delay))</code></pre>
+<pre><code>## Source: local data frame [16 x 2]
+## 
+##    carrier  avg_delay
+##      (chr)      (dbl)
+## 1       F9 21.9207048
+## 2       FL 20.1159055
+## 3       EV 15.7964311
+## 4       YV 15.5569853
+## 5       OO 11.9310345
+## 6       MQ 10.7747334
+## 7       WN  9.6491199
+## 8       B6  9.4579733
+## 9       9E  7.3796692
+## 10      UA  3.5580111
+## 11      US  2.1295951
+## 12      VX  1.7644644
+## 13      DL  1.6443409
+## 14      AA  0.3642909
+## 15      HA -6.9152047
+## 16      AS -9.9308886</code></pre>
+<pre class="r"><code>airlines </code></pre>
+<pre><code>## Source: local data frame [16 x 2]
+## 
+##    carrier                        name
+##      (chr)                       (chr)
+## 1       9E           Endeavor Air Inc.
+## 2       AA      American Airlines Inc.
+## 3       AS        Alaska Airlines Inc.
+## 4       B6             JetBlue Airways
+## 5       DL        Delta Air Lines Inc.
+## 6       EV    ExpressJet Airlines Inc.
+## 7       F9      Frontier Airlines Inc.
+## 8       FL AirTran Airways Corporation
+## 9       HA      Hawaiian Airlines Inc.
+## 10      MQ                   Envoy Air
+## 11      OO       SkyWest Airlines Inc.
+## 12      UA       United Air Lines Inc.
+## 13      US             US Airways Inc.
+## 14      VX              Virgin America
+## 15      WN      Southwest Airlines Co.
+## 16      YV          Mesa Airlines Inc.</code></pre>
+<p>F9 (Frontier Airlines) has the worst delays.</p>
+<p>If bad carriers have a high share of flights in an airport, they are going to affect that airport’s delays. If an airline has a high share of bad airports, they are going to make the airline look bad. It is necessary to look at the share of airports and airlines - if airlines are relatively evenly distributed amonst airports and one airline uses each airport around the same number of time, it should be possible to make the distinction between bad airports and bad airlines.</p></li>
+<li><p>For each plane, count the number of flights before the first delay of greater than 1 hour.</p>
+<pre class="r"><code>flights %&gt;% 
+  group_by(tailnum) %&gt;% 
+  mutate(arr_date = as.Date(paste(year, month, day, sep = &quot;-&quot;), &quot;%Y-%m-%d&quot;)) %&gt;%
+  arrange(arr_date) %&gt;%
+  mutate(flights_first_delay_and_after = cumany(arr_delay &gt; 60)) %&gt;%
+  filter(!flights_first_delay_and_after) %&gt;%
+  tally(sort = T)</code></pre>
+<pre><code>## Source: local data frame [3,748 x 2]
+## 
+##    tailnum     n
+##      (chr) (int)
+## 1   N705TW    97
+## 2   N765US    97
+## 3   N12125    94
+## 4   N320AA    94
+## 5   N13110    91
+## 6   N3763D    82
+## 7   N58101    82
+## 8   N17122    81
+## 9   N961UW    80
+## 10  N950UW    79
+## ..     ...   ...</code></pre></li>
+<li><p>What does the <code>sort</code> argument to <code>count()</code> do. When might you use it?</p>
+<pre class="r"><code>flights %&gt;%
+  count(tailnum, sort = T)</code></pre>
+<pre><code>## Source: local data frame [4,044 x 2]
+## 
+##    tailnum     n
+##      (chr) (int)
+## 1       NA  2512
+## 2   N725MQ   575
+## 3   N722MQ   513
+## 4   N723MQ   507
+## 5   N711MQ   486
+## 6   N713MQ   483
+## 7   N258JB   427
+## 8   N298JB   407
+## 9   N353JB   404
+## 10  N351JB   402
+## ..     ...   ...</code></pre>
+<p>The <code>sort</code> argument causes the output table to be sorted by number of occurences in descending order. In the above example this is useful because it displays the planes with the highest numbers of flights first, instead of sorting alphabetically.</p></li>
 </ol>
 </div>
 <div id="exercises-group_by-and-mutate" class="section level1">
-<h1>Exercises: group_by() and mutate()</h1>
+<h1>Exercises: <code>group_by()</code> and <code>mutate()</code></h1>
 <ol style="list-style-type: decimal">
 <li><p>Refer back to the table of useful mutate and filtering functions. Describe how each operation changes when you combine it with grouping.</p></li>
-<li><p>Which plane (<code>tailnum</code>) has the worst on-time record?</p></li>
-<li><p>What time of day should you fly if you want to avoid delays as much as possible?</p></li>
+<li><p>Which plane (<code>tailnum</code>) has the worst on-time record?</p>
+<pre class="r"><code>flights %&gt;%
+  group_by(tailnum) %&gt;%
+  summarize(mean_arr_delay = mean(arr_delay, na.rm = T)) %&gt;%
+  filter(mean_arr_delay &gt; 0) %&gt;%
+  arrange(desc(mean_arr_delay))</code></pre>
+<pre><code>## Source: local data frame [2,911 x 2]
+## 
+##    tailnum mean_arr_delay
+##      (chr)          (dbl)
+## 1   N844MH       320.0000
+## 2   N911DA       294.0000
+## 3   N922EV       276.0000
+## 4   N587NW       264.0000
+## 5   N851NW       219.0000
+## 6   N928DN       201.0000
+## 7   N7715E       188.0000
+## 8   N654UA       185.0000
+## 9   N665MQ       174.6667
+## 10  N427SW       157.0000
+## ..     ...            ...</code></pre></li>
+<li><p>What time of day should you fly if you want to avoid delays as much as possible?</p>
+<pre class="r"><code>flights %&gt;%
+  mutate(dep_h = floor(dep_time/100)) %&gt;%
+  group_by(dep_h) %&gt;%
+  summarize(mean_arr_delay = mean(arr_delay, na.rm = T)) %&gt;%
+  arrange(mean_arr_delay)</code></pre>
+<pre><code>## Source: local data frame [26 x 2]
+## 
+##    dep_h mean_arr_delay
+##    (dbl)          (dbl)
+## 1      4    -8.87540984
+## 2      5    -8.85089903
+## 3      7    -7.35134756
+## 4      6    -7.09117426
+## 5      8    -4.02681382
+## 6      9    -1.06264612
+## 7     10    -0.51038613
+## 8     11     0.09789373
+## 9     12     2.25517973
+## 10    14     2.32705698
+## ..   ...            ...</code></pre>
+<p>The smallest delays occur between 4 and 5:59, where flights are over eight minutes early to arrive. To avoid delays it is sufficient to fly between 4 and 10:59 am.</p></li>
 <li><p>For each destination, compute the total minutes of delay. For each, flight, compute the proportion of the total delay for its destination.</p></li>
 <li><p>Delays are typically temporally correlated: even once the problem that caused the initial delay has been resolved, later flights are delayed to allow earlier flights to leave. Using <code>lag()</code> explore how the delay of a flight is related to the delay of the immediately preceding flight.</p></li>
 <li><p>Look at each destination. Can you find flights that are suspiciously fast? (i.e. flights that represent a potential data entry error). Compute the air time a flight relative to the shortest flight to that destination. Which flights were most delayed in the air?</p></li>

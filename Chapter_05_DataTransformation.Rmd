@@ -5,7 +5,7 @@ date: "15 Dezember 2016"
 output: html_document
 ---
 
-```{r, message = F}
+```{r, message=F, warning=F}
 library(tidyverse)
 library(nycflights13)
 ```
@@ -14,7 +14,7 @@ library(nycflights13)
 knitr::opts_chunk$set(echo = TRUE, indent = '    ')
 ```
 
-# Exercises: filter()
+# Exercises: `filter()`
 
 1.  Find all flights that
 
@@ -97,7 +97,7 @@ knitr::opts_chunk$set(echo = TRUE, indent = '    ')
     
     So by and large, if a computation will always yield the same result, regardless of the value of the argument, a `NA` value will not come in the way of a correct computation. The exception to this is `NA * 0` which evaluates to `NA`.
     
-# Exercises: arrange()
+# Exercises: `arrange()`
 
 1.  How could you use `arrange()` to sort all missing values to the start?
     (Hint: use `is.na()`).
@@ -136,7 +136,7 @@ knitr::opts_chunk$set(echo = TRUE, indent = '    ')
     flights %>% arrange(air_time) %>% head(5)
     ```
 
-#Exercises: select()
+#Exercises: `select()`
 
 1.  Brainstorm as many ways as possible to select `dep_time`, `dep_delay`,
     `arr_time`, and `arr_delay` from `flights`.
@@ -188,7 +188,7 @@ knitr::opts_chunk$set(echo = TRUE, indent = '    ')
     select(flights, contains("TIME", ignore.case = FALSE))
     ```
 
-# Exercises: mutate()
+# Exercises: `mutate()`
 
 ```{r, eval = FALSE, echo = FALSE}
 flights <- flights %>% mutate(
@@ -274,7 +274,7 @@ ggplot(flights, aes(air_time - airtime2)) + geom_histogram()
     `cospi()`, `sinpi()`, `tanpi()`.
     
 
-# Exercises: summarize()
+# Exercises: `summarize()`
 
 1.  Brainstorm at least 5 different ways to assess the typical delay 
     characteristics of a group of flights. Consider the following scenarios:
@@ -359,16 +359,25 @@ ggplot(flights, aes(air_time - airtime2)) + geom_histogram()
     of greater than 1 hour.
     
     ```{r}
-
+    flights %>% 
+      group_by(tailnum) %>% 
+      mutate(arr_date = as.Date(paste(year, month, day, sep = "-"), "%Y-%m-%d")) %>%
+      arrange(arr_date) %>%
+      mutate(flights_first_delay_and_after = cumany(arr_delay > 60)) %>%
+      filter(!flights_first_delay_and_after) %>%
+      tally(sort = T)
     ```
 
 1.  What does the `sort` argument to `count()` do. When might you use it?
 
     ```{r}
-
+    flights %>%
+      count(tailnum, sort = T)
     ```
+    
+    The `sort` argument causes the output table to be sorted by number of occurences in descending order. In the above example this is useful because it displays the planes with the highest numbers of flights first, instead of sorting alphabetically.
 
-# Exercises: group_by() and mutate()
+# Exercises: `group_by()` and `mutate()`
 
 1.  Refer back to the table of useful mutate and filtering functions. 
     Describe how each operation changes when you combine it with grouping.
@@ -380,15 +389,25 @@ ggplot(flights, aes(air_time - airtime2)) + geom_histogram()
 1.  Which plane (`tailnum`) has the worst on-time record?
 
     ```{r}
-
+    flights %>%
+      group_by(tailnum) %>%
+      summarize(mean_arr_delay = mean(arr_delay, na.rm = T)) %>%
+      filter(mean_arr_delay > 0) %>%
+      arrange(desc(mean_arr_delay))
     ```
 
 1.  What time of day should you fly if you want to avoid delays as much
     as possible?
     
     ```{r}
-
+    flights %>%
+      mutate(dep_h = floor(dep_time/100)) %>%
+      group_by(dep_h) %>%
+      summarize(mean_arr_delay = mean(arr_delay, na.rm = T)) %>%
+      arrange(mean_arr_delay)
     ```
+    
+    The smallest delays occur between 4 and 5:59, where flights are over eight minutes early to arrive. To avoid delays it is sufficient to fly between 4 and 10:59 am.
     
 1.  For each destination, compute the total minutes of delay. For each, 
     flight, compute the proportion of the total delay for its destination.
